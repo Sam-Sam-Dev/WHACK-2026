@@ -11237,7 +11237,7 @@ MonoBehaviour:
     legacyPrefab: {fileID: 0}
   - cue: 10
     clip: {fileID: 8300000, guid: 5cac231e3230e42cba30cbc06cebfaab, type: 3}
-    volume: 1
+    volume: 0.118
     pitch: 1
     legacyPrefab: {fileID: 0}
   - cue: 11
