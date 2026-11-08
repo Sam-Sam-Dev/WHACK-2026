@@ -1,0 +1,21 @@
+# Unity generated files
+/MissionMarshal/[Ll]ibrary/
+/MissionMarshal/[Tt]emp/
+/MissionMarshal/[Oo]bj/
+/MissionMarshal/[Ll]ogs/
+/MissionMarshal/[Uu]ser[Ss]ettings/
+/MissionMarshal/[Bb]uild/
+/MissionMarshal/[Bb]uilds/
+/MissionMarshal/.vs/
+/MissionMarshal/.vscode/
+*.csproj
+*.sln
+*.slnx
+*.user
+# PlatformIO generated files
+**/.pio/
+**/.vscode/
+# Local system files and installers
+.DS_Store
+*.dmg
+*.dmg.meta
