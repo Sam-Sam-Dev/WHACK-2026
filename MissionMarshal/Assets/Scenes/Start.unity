@@ -11620,7 +11620,7 @@ MonoBehaviour:
   GameLength: 180
   pastTime: 0
   cam: {fileID: 1864625383}
-  camturnspeed: 5
+  camturnspeed: 0
   camtarget: {fileID: 0}
 --- !u!1 &2045746463 stripped
 GameObject:
