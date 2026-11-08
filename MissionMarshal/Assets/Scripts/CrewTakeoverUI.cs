@@ -12,6 +12,8 @@ using UnityEngine.UI;
 
 public sealed class CrewTakeoverUI : MonoBehaviour
 {
+    public Sprite fingerprintGuide;
+    public Sprite keypadGuide, joystickGuide, ultrasonicGuide;
     public TMP_Text crewPrompt;
     public TMP_Text instructions;
     public TMP_Text feedback;
@@ -26,11 +28,11 @@ public sealed class CrewTakeoverUI : MonoBehaviour
     private readonly Color amber = new Color(1f, 0.68f, 0.1f);
     private readonly Color red = new Color(1f, 0.15f, 0.22f);
 
-    public void Show(int crew, float duration, string preview = null)
+    public void Show(int crew, float duration, string preview = null, int task = 0)
     {
         gameObject.SetActive(true);
         wrongUntil = 0;
-        ShowTaskPreview(preview ?? "SCAN TO TAKE CONTROL\nAuthenticate your crew to restore ship systems.");
+        ShowTaskPreview(preview ?? "SCAN TO TAKE CONTROL\nAuthenticate your crew to restore ship systems.", task);
         if (crewPrompt != null)
         {
             crewPrompt.gameObject.SetActive(true);
@@ -43,7 +45,7 @@ public sealed class CrewTakeoverUI : MonoBehaviour
         SetTime(duration, duration);
     }
 
-    private void ShowTaskPreview(string preview)
+    private void ShowTaskPreview(string preview, int task)
     {
         if(taskPreviewPanel==null)
         {
@@ -58,6 +60,25 @@ public sealed class CrewTakeoverUI : MonoBehaviour
             taskPreview.fontSize=40;taskPreview.enableAutoSizing=true;taskPreview.fontSizeMin=28;taskPreview.fontSizeMax=40;
             taskPreview.alignment=TextAlignmentOptions.Center;taskPreview.color=Color.white;taskPreview.raycastTarget=false;
         }
+        Sprite selectedGuide = task == 1 ? keypadGuide : task == 2 ? joystickGuide : task == 3 ? ultrasonicGuide : fingerprintGuide;
+        var guideTransform = taskPreviewPanel.transform.Find("Task Guide");
+        if (guideTransform == null)
+        {
+            var go = new GameObject("Task Guide", typeof(RectTransform), typeof(UnityEngine.UI.Image));
+            go.transform.SetParent(taskPreviewPanel.transform, false);
+            var rect = go.GetComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = new Vector2(0,.5f);
+            rect.anchoredPosition = new Vector2(190,0);
+            rect.sizeDelta = new Vector2(320,214);
+            guideTransform = go.transform;
+        }
+        var guideImage = guideTransform.GetComponent<UnityEngine.UI.Image>();
+        guideImage.sprite = selectedGuide;
+        guideImage.preserveAspect = true;
+        guideImage.color = Color.white;
+        guideImage.raycastTarget = false;
+        guideTransform.gameObject.SetActive(selectedGuide != null);
+        taskPreview.rectTransform.offsetMin = new Vector2(selectedGuide != null ? 380 : 35,25);
         taskPreviewPanel.SetActive(true);
         int lineBreak=preview.IndexOf('\n');
         taskPreview.text=lineBreak<0?preview:$"<color=#44DDFF><size=135%>{preview.Substring(0,lineBreak)}</size></color>\n\n{preview.Substring(lineBreak+1)}";

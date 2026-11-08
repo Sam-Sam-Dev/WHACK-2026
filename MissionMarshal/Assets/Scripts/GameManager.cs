@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     public MissionTaskController missionTasks;
     public ShipHealthUI healthUI;
     public GameObject failureSparkPrefab;
+    [Header("Ship destruction")]
+    public GameObject shipExplosionPrefab;
+    [Min(0.1f)] public float restartDelaySeconds = 3f;
     [SerializeField] private int hearts = 3;
     public int Hearts => hearts;
     public bool IsGameOver => hearts <= 0;
@@ -176,7 +179,7 @@ public class GameManager : MonoBehaviour
         takeoverDeadline = Time.unscaledTime + Mathf.Max(0.1f, takeoverSeconds);
         nextReadAt = Time.unscaledTime;
         PlaySound(ShipSoundEvents.Cue.FingerprintPrompt);
-        if (takeoverUI != null) takeoverUI.Show(requestedCrew, takeoverSeconds, MissionTaskController.GetTaskPreview(requestedTask));
+        if (takeoverUI != null) takeoverUI.Show(requestedCrew, takeoverSeconds, MissionTaskController.GetTaskPreview(requestedTask), requestedTask);
         Debug.Log($"Challenge {nextChallengeIndex}: Crew #{requestedCrew}, take control.", this);
     }
 
@@ -343,8 +346,73 @@ public class GameManager : MonoBehaviour
             pendingTakeovers = 0;
             if (spaceMovie != null) spaceMovie.MovementEnabled = false;
             if (healthUI != null) healthUI.ShowGameOver();
+            if (missionTasks != null) missionTasks.CancelTask();
+            if (takeoverUI != null) takeoverUI.Hide();
+            if (components != null) components.DeactivateAll();
+            ExplodeAndHideShip();
+            StartCoroutine(RestartAfterDestruction());
             Debug.Log("Ship destroyed: all hearts lost.", this);
         }
+    }
+
+    private void ExplodeAndHideShip()
+    {
+        if (spaceMovie == null) return;
+        Vector3 position = spaceMovie.transform.position;
+        float radius = 1f;
+        // Keep the ship object and its camera alive while hiding only its visuals.
+        foreach (var renderer in spaceMovie.GetComponentsInChildren<Renderer>(true))
+        {
+            if (renderer.GetComponentInParent<Camera>() != null) continue;
+            radius = Mathf.Max(radius, renderer.bounds.extents.magnitude);
+            renderer.enabled = false;
+        }
+        if (shipExplosionPrefab != null)
+        {
+            var explosion = Instantiate(shipExplosionPrefab, position, Quaternion.identity);
+            Destroy(explosion, Mathf.Max(3f, restartDelaySeconds));
+            return;
+        }
+        // A visible default burst works even before an explosion prefab is assigned.
+        var burst = new GameObject("Ship Explosion");
+        burst.transform.position = position;
+        var particles = burst.AddComponent<ParticleSystem>();
+        particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        var main = particles.main;
+        main.loop = false;
+        main.duration = 1f;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(.5f, 1.5f);
+        main.startSpeed = new ParticleSystem.MinMaxCurve(radius * 2f, radius * 5f);
+        main.startSize = new ParticleSystem.MinMaxCurve(radius * .15f, radius * .45f);
+        main.startColor = new ParticleSystem.MinMaxGradient(new Color(1f,.25f,.02f), new Color(1f,.9f,.25f));
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        var emission = particles.emission;
+        emission.rateOverTime = 0;
+        emission.SetBursts(new[] { new ParticleSystem.Burst(0f, 90) });
+        var shape = particles.shape;
+        shape.shapeType = ParticleSystemShapeType.Sphere;
+        shape.radius = radius * .3f;
+        var fade = particles.colorOverLifetime;
+        fade.enabled = true;
+        var gradient = new Gradient();
+        gradient.SetKeys(new[] { new GradientColorKey(Color.white,0f), new GradientColorKey(new Color(1f,.1f,0f),1f) },
+            new[] { new GradientAlphaKey(1f,0f), new GradientAlphaKey(0f,1f) });
+        fade.color = gradient;
+        var shader = Shader.Find("Universal Render Pipeline/Particles/Unlit") ?? Shader.Find("Sprites/Default");
+        if (shader != null)
+        {
+            var material = new Material(shader);
+            burst.GetComponent<ParticleSystemRenderer>().sharedMaterial = material;
+            Destroy(material, 3f);
+        }
+        particles.Play();
+        Destroy(burst, 3f);
+    }
+
+    private IEnumerator RestartAfterDestruction()
+    {
+        yield return new WaitForSecondsRealtime(Mathf.Max(.1f, restartDelaySeconds));
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Start");
     }
 
     /// <summary>Remove crew overrides so the scene's baseline volumes take effect again.</summary>

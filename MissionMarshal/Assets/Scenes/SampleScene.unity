@@ -5953,8 +5953,8 @@ MonoBehaviour:
   - {fileID: 1098623558464891148, guid: 2293a25c19c6a4ddfb84660ddd22cac7, type: 3}
   - {fileID: 7825725569052721674, guid: cd44c5c54462541529acbf69813ebb6c, type: 3}
   - {fileID: 1716788723502524723, guid: 2177211c9fb3d4cf8b2506459ec38c30, type: 3}
-  pathObjectSpawnCount: 500
-  pathObjectSpacingVariation: 0.35
+  pathObjectSpawnCount: 250
+  pathObjectSpacingVariation: 0.272
   pathObjectRadius: {x: 2.5, y: 500}
   pathObjectMinimumSeparation: 2
   pathObjectPlacementAttempts: 32
@@ -11008,7 +11008,7 @@ MonoBehaviour:
   components: {fileID: 918260285}
   spaceMovie: {fileID: 2013532784}
   challengePoints: []
-  challengeProgressGap: {x: 0.04, y: 0.08}
+  challengeProgressGap: {x: 0.1, y: 0.15}
   challengeResultSeconds: 1.4
   startingHearts: 3
   successFlashSeconds: 0.65
@@ -11018,6 +11018,8 @@ MonoBehaviour:
   missionTasks: {fileID: 918260287}
   healthUI: {fileID: 918260288}
   failureSparkPrefab: {fileID: 4691777159900309341, guid: 73386eabccb5346d0b987d42a771ee8f, type: 3}
+  shipExplosionPrefab: {fileID: 0}
+  restartDelaySeconds: 3
   hearts: 3
   universeVolumes:
   - {fileID: 1412629669}
@@ -11072,7 +11074,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MissionTaskDisplay
   shipSprite: {fileID: 21300000, guid: 04ab2ca630ee9433487b1311372125e0, type: 3}
   asteroidSprite: {fileID: 21300000, guid: 876a845e306334d16b0eddfe2c652f8e, type: 3}
-  ultrasonicGuide: {fileID: 21300000, guid: 2ffd5312a01d54b2bab8f8c268da22fe, type: 3}
+  ultrasonicGuide: {fileID: 128889091407729587, guid: a49d634288a764dba9957e23671b7275, type: 3}
   title: {fileID: 0}
   description: {fileID: 0}
   sequence: {fileID: 0}
@@ -11102,13 +11104,13 @@ MonoBehaviour:
   display: {fileID: 918260286}
   minigameChanceAtStart: 1
   minigameChanceAtEnd: 1
-  minigameWeights: {x: 0, y: 0, z: 1}
+  minigameWeights: {x: 1, y: 1, z: 0.75}
   instructionSeconds: 2
   activationTimeout: 8
   normalRecoverySeconds: 1
   resultDisplaySeconds: 1.4
   timerWarningSeconds: 2
-  sequenceLengthRange: {x: 6, y: 60}
+  sequenceLengthRange: {x: 6, y: 10}
   secondsPerCharacter: 1.8
   keypadMistakesToFail: 2
   logJoystickInput: 1
@@ -11124,8 +11126,8 @@ MonoBehaviour:
   shipBottomMargin: 19
   asteroidHitsToFail: 2
   collisionGraceSeconds: 0.55
-  targetDistanceRangeCm: {x: 15, y: 25}
-  distanceToleranceCm: 2.5
+  targetDistanceRangeCm: {x: 15, y: 30}
+  distanceToleranceCm: 4
   ultrasonicSeconds: 8
   requiredHoldSeconds: 1
   readingFreshnessSeconds: 0.3
@@ -11249,7 +11251,7 @@ MonoBehaviour:
     pitch: 1
     legacyPrefab: {fileID: 0}
   - cue: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 17645ed6555e74b128ddf36ac3925d9c, type: 3}
     volume: 1
     pitch: 1
     legacyPrefab: {fileID: 0}
@@ -12568,7 +12570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceShipMove
   MovementEnabled: 1
   path: {fileID: 614453496}
-  GameLength: 180
+  GameLength: 45
   pastTime: 0
   cam: {fileID: 1864625383}
   camturnspeed: 5
@@ -12650,6 +12652,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bd153936f394ccdb0278ead12b741f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrewTakeoverUI
+  fingerprintGuide: {fileID: 21300000, guid: 73577a2241dea44e99ef0505f438934d, type: 3}
+  keypadGuide: {fileID: 21300000, guid: 7808df2a88d3e42ae9b21810eb3fec3f, type: 3}
+  joystickGuide: {fileID: 21300000, guid: 8d576c2a57fab4cf2b10f6c3f41fa31c, type: 3}
+  ultrasonicGuide: {fileID: 128889091407729587, guid: a49d634288a764dba9957e23671b7275, type: 3}
   crewPrompt: {fileID: 471943928}
   instructions: {fileID: 1895940436}
   feedback: {fileID: 1745552906}

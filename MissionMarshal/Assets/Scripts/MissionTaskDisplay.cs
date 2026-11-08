@@ -51,8 +51,8 @@ public sealed class MissionTaskDisplay : MonoBehaviour
         guide=Box("Ultrasonic Guide",field,new Vector2(-240,0),new Vector2(220,240),Color.white);guide.preserveAspect=true;
         lowerDistanceBar=Box("Lower Gravity Pad",field,new Vector2(250,-12),new Vector2(300,10),Color.gray);
         upperDistanceBar=Box("Upper Gravity Pad",field,new Vector2(250,12),new Vector2(300,10),Color.gray);
-        distanceReadout=Text("Distance Readout",field,new Vector2(-70,0),new Vector2(300,180),54);
-        guide.rectTransform.anchoredPosition=new Vector2(-330,0);guide.rectTransform.sizeDelta=new Vector2(150,210);
+        distanceReadout=Text("Distance Readout",field,new Vector2(-15,0),new Vector2(240,180),54);
+        guide.rectTransform.anchoredPosition=new Vector2(-280,0);guide.rectTransform.sizeDelta=new Vector2(280,210);
         status=Text("Status",rect,new Vector2(0,-220),new Vector2(940,55),27);
         var hold=Box("Distance Hold Background",rect,new Vector2(0,-265),new Vector2(850,10),new Color(.1f,.15f,.2f));
         holdFill=Box("Distance Hold",hold.transform,Vector2.zero,new Vector2(850,10),Good);

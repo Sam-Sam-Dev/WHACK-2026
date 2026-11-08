@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSetup
   components: {fileID: 918260285}
-  CrewNumber: 4
+  CrewNumber: 3
   CrewText: {fileID: 471943928}
   TitleText: {fileID: 823177880}
   HideOnMissionStart:
@@ -10966,11 +10966,15 @@ MonoBehaviour:
   challengeProgressGap: {x: 0.04, y: 0.08}
   challengeResultSeconds: 1.4
   startingHearts: 3
+  successFlashSeconds: 0.65
+  successFlashOpacity: 0.25
   ZapP: {fileID: 4691777159900309341, guid: 73386eabccb5346d0b987d42a771ee8f, type: 3}
   soundEvents: {fileID: 0}
   missionTasks: {fileID: 0}
   healthUI: {fileID: 0}
   failureSparkPrefab: {fileID: 0}
+  shipExplosionPrefab: {fileID: 0}
+  restartDelaySeconds: 3
   hearts: 3
   universeVolumes: []
   crewVolumes: []
@@ -11497,9 +11501,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4c13abee65e5848de90d217b64bedec3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 73577a2241dea44e99ef0505f438934d, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -11565,7 +11569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: a4b36bd294643484483034835d9abc8f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a4b36bd294643484483034835d9abc8f, type: 3}
       propertyPath: m_Name
