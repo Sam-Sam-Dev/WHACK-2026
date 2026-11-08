@@ -11102,7 +11102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MissionTaskController
   display: {fileID: 918260286}
-  minigameChanceAtStart: 1
+  minigameChanceAtStart: 0.8
   minigameChanceAtEnd: 1
   minigameWeights: {x: 1, y: 1, z: 0.75}
   instructionSeconds: 2
